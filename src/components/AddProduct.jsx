@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const AddProduct = () => {
+const AddProduct = ({addproduct}) => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
@@ -10,10 +10,11 @@ const AddProduct = () => {
         e.preventDefault()
         const singleProduct = {name,price,description,image}
         console.log(singleProduct)
+        addproduct(singleProduct)
     }
     return (
         <> 
-            <form onSubmit={handleProductSubmit} >
+            <form onSubmit={handleProductSubmit} className='border border-gray-400 rounded p-4 m-4'>
                 <label htmlFor="">Name</label>
                 <input type="text" onChange={(e)=>setName(e.target.value)} placeholder='Enter your product name' /> <br />
                 <label htmlFor="">Price</label>

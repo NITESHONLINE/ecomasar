@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import './App.css'
 import AddProduct from './components/AddProduct'
+import Product from './components/Product'
 
 function App() {
 
-  const products = [
+  const initialProducts = [
     {
       name: "Apple",
       price: 300,
@@ -37,20 +39,35 @@ function App() {
 
   ]
 
+
+  const [product, setProduct] = useState(initialProducts)
+
+  const handleAddProduct = (singleProduct) => {
+    // alert('parent to child')
+    const updatedData = [singleProduct, ...product]
+    console.log("single product data from child", singleProduct)
+    console.log("updated datda", updatedData)
+    setProduct(updatedData)
+  }
+
+ 
+
   return (
     <>
 
-    <AddProduct/>
+    <AddProduct addproduct={handleAddProduct}/>
 
       <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'>
-        {products?.map((data) => (
+        {/* {products?.map((data) => (
           <div className='border border-gray-200 rounded p-4'>
             <img src={data?.image} alt="" />
             <h2>{data?.name}</h2>
             <p>{data?.description}</p>
             <span>{data?.price}</span>\
           </div>
-        ))}
+        ))} */}
+
+        <Product productdata={product}/>
       </section>
 
 

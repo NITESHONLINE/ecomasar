@@ -10,7 +10,7 @@ const Product = ({productdata}) => {
             <img src={data?.image} alt="" />
             <h2>{data?.name}</h2>
             <p>{data?.description}</p>
-            <span>{data?.price}</span>\
+            <span>{data?.price}</span>
           </div>
         ))}
 

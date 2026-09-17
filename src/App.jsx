@@ -42,12 +42,17 @@ function App() {
 
   const [product, setProduct] = useState(initialProducts)
 
+  const dataFromLocalStorage = JSON.parse(localStorage.getItem('product'))
+
   const handleAddProduct = (singleProduct) => {
     // alert('parent to child')
     const updatedData = [singleProduct, ...product]
     console.log("single product data from child", singleProduct)
     console.log("updated datda", updatedData)
     setProduct(updatedData)
+
+    localStorage.setItem("product", JSON.stringify(product))
+
   }
 
  
@@ -67,13 +72,9 @@ function App() {
           </div>
         ))} */}
 
-        <Product productdata={product}/>
-      </section>
-
-
-
-
-
+        {/* <Product productdata={product}/> */}
+        <Product productdata={dataFromLocalStorage}/>
+      </section> 
     </>
   )
 }

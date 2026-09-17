@@ -1,18 +1,21 @@
 import React from 'react'
+import { Link } from 'react-router'
 
-const Product = ({productdata}) => {
+const Product = ({ productdata }) => {
 
-    // console.log(props)
+  // console.log(props)
   return (
     <>
-   {productdata?.map((data) => (
-          <div className='border border-gray-200 rounded p-4'>
+      {productdata?.map((data, i) => (
+        <div className='border border-gray-200 rounded p-4'>
+          <Link to={`/product/${i}`}>
             <img src={data?.image} alt="" />
-            <h2>{data?.name}</h2>
-            <p>{data?.description}</p>
-            <span>{data?.price}</span>
-          </div>
-        ))}
+          </Link>
+          <h2>{data?.name}</h2>
+          <p>{data?.description}</p>
+          <span>{data?.price}</span>
+        </div>
+      ))}
 
 
     </>

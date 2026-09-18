@@ -22,12 +22,8 @@ const ProductView = () => {
                         <h3>{singleData?.price}</h3>
                     </div>
                     <img src={singleData?.image} alt="" />
-                </div>
-
-            </section>
-
-
-
+                </div> 
+            </section> 
         </>
     )
 }

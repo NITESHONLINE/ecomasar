@@ -2,8 +2,13 @@ import React, { useState } from 'react'
 import AddProduct from '../components/AddProduct'
 import Product from '../components/Product'
 import { Link } from 'react-router'
+import { useGetProductsQuery } from '../services/productApi'
 
 const Home = () => {
+
+    const {data} = useGetProductsQuery()
+
+    console.log(data)
 
 
     const initialProducts = [

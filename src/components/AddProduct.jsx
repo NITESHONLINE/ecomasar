@@ -1,16 +1,42 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router'
 
-const AddProduct = ({ addproduct }) => {
+const AddProduct = ({ addproduct, editData, editIndex, isEdit=false }) => {
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
+    const nav = useNavigate()
+
+    console.log(editData)
+
+    useEffect( ()=> {
+        if(isEdit && editData){
+            setName(editData.name);
+            setPrice(editData.price);
+            setDescription(editData.description);
+            setImage(editData.image);
+        }
+    },[editData,isEdit])    
 
     const handleProductSubmit = (e) => {
         e.preventDefault()
         const singleProduct = { name, price, description, image }
-        console.log(singleProduct)
-        addproduct(singleProduct)
+
+        if(isEdit){
+            const products = JSON.parse(localStorage.getItem('product'));
+            products[editIndex] = singleProduct
+            localStorage.setItem('product', JSON.stringify(products))
+            alert('product upated success')
+            nav('/')
+        } else{
+            addproduct(singleProduct)
+            setName('')
+            setPrice('')
+            setDescription('')
+            setImage('')
+        }
+
     }
     return (
         <>  
@@ -24,19 +50,19 @@ const AddProduct = ({ addproduct }) => {
                             <form class="space-y-4 md:space-y-6" onSubmit={handleProductSubmit}>
                                 <div>
                                     <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                    <input type="name" onChange={(e) => setName(e.target.value)} name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required="" />
+                                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} name="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required="" />
                                 </div> 
                                 <div>
                                     <label for="price" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">price</label>
-                                    <input type="price" onChange={(e) => setPrice(e.target.value)} name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
+                                    <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} name="price" id="price" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
                                 </div> 
                                 <div>
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">description</label>
-                                    <input type="description" onChange={(e) => setDescription(e.target.value)} name="description" id="description" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
+                                    <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} name="description" id="description" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
                                 </div> 
                                 <div>
                                     <label for="image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">image</label>
-                                    <input type="url" onChange={(e) => setImage(e.target.value)} name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
+                                    <input type="url" value={image} onChange={(e) => setImage(e.target.value)} name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"   required="" />
                                 </div>   
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-start">

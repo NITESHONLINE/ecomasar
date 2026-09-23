@@ -105,7 +105,7 @@ const Home = () => {
                                         <p class="mr-3 text-sm font-semibold">${data?.price}</p>
                                         <p class="text-xs text-gray-400"> {data?.description}</p>
                                     </div>
-                                    <h3 class="mb-2 text-sm text-gray-400">{data?.title}</h3>
+                                    <h3 class="mb-2 text-sm text-gray-400">{data?.name}</h3>
                                 </div>
 
                                 <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">
@@ -113,6 +113,7 @@ const Home = () => {
                                     <div class="flex items-center justify-center bg-gray-200 px-5 transition group-hover:bg-emerald-500 group-hover:text-white">+</div>
                                 </button>
                                 <button onClick={() => handleDeleteProduct(i)} className='my-4 bg-red-500 w-[100px] text-white rounded py-2 ml-6'>Delete</button>
+                                    <Link to={`/edit/${i}`}>Edit</Link>
                             </article>
                         ))}
                     </div>

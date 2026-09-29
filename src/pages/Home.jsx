@@ -3,10 +3,12 @@ import AddProduct from '../components/AddProduct'
 import Product from '../components/Product'
 import { Link } from 'react-router'
 import { useGetProductsQuery } from '../services/productApi'
+import { useGetCategoyQuery } from '../services/categoryApi'
 
 const Home = () => {
 
     const {data} = useGetProductsQuery()
+    const {data:category} = useGetCategoyQuery()
 
     console.log(data)
 
@@ -88,18 +90,25 @@ const Home = () => {
             <button className='bg-red-600 text-white ml-6 rounded py-2 px-3' onClick={handleAllProductDelete}>Delet all product</button>
             <Product productdata={product} />
 
+
             <section class="bg-white py-12 text-gray-700 sm:py-16 lg:py-20">
                 <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
                     <div class="mx-auto max-w-md text-center">
                         <h2 class="font-serif text-2xl font-bold sm:text-3xl">Fresh Fruits & Vegetables</h2>
                     </div>
 
+        <select name="" id="">
+            {category?.map((data)=> (
+            <option value={data?.slug}>{data?.name}</option>
+            ))}
+        </select>
+
                     <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                        {product?.map((data, i) => (
+                        {data?.products?.map((data, i) => (
                             <article class="relative flex flex-col overflow-hidden rounded-lg border">
                                 <div class="aspect-square overflow-hidden">
                                     <Link to={`/product/${i}`}>
-                                        <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" src={data?.image} alt="" />
+                                        <img class="h-full w-full object-cover transition-all duration-300 group-hover:scale-125" src={data?.images[0]} alt="" />
                                     </Link>
                                 </div>
                                 <div class="absolute top-0 m-2 rounded-full bg-white">
@@ -110,7 +119,7 @@ const Home = () => {
                                         <p class="mr-3 text-sm font-semibold">${data?.price}</p>
                                         <p class="text-xs text-gray-400"> {data?.description}</p>
                                     </div>
-                                    <h3 class="mb-2 text-sm text-gray-400">{data?.name}</h3>
+                                    <h3 class="mb-2 text-sm text-gray-400">{data?.title}</h3>
                                 </div>
 
                                 <button class="group mx-auto mb-2 flex h-10 w-10/12 items-stretch overflow-hidden rounded-md text-gray-600">

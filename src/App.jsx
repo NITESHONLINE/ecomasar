@@ -5,11 +5,13 @@ import ProductView from './pages/ProductView'
 import UseEffect from './pages/UseEffect'
 import EditProduct from './pages/EditProduct'
 import Login from './pages/Login'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
 
   return (
     <>
+    <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/product/:id' element={<ProductView />} />

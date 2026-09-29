@@ -1,6 +1,8 @@
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useLoginMutation } from '../services/authApi'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router'
 
 const Login = () => {
 
@@ -9,13 +11,18 @@ const Login = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm()
+  } = useForm();
+
+  const nav = useNavigate()
 
   const [login] = useLoginMutation()
 
   const onSubmit = async(formData) => {
     try{
         const res = await login(formData).unwrap()
+        localStorage.setItem('res', JSON.stringify(res))
+        toast.success('Login Success.')
+        nav('/')
     }catch{
         console.log("server error")
     }
@@ -37,14 +44,14 @@ const Login = () => {
                             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                                 Sign in to your account
                             </h1>
-                            <form class="space-y-4 md:space-y-6" action="#">
+                            <form onSubmit={handleSubmit(onSubmit)} class="space-y-4 md:space-y-6" action="#">
                                 <div>
-                                    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                    <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+                                    <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your username</label>
+                                    <input type="text" {...register("username")} name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your username" required="" />
                                 </div>
                                 <div>
                                     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                                    <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
+                                    <input type="password" {...register("password")} name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="" />
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <div class="flex items-start">
@@ -69,17 +76,14 @@ const Login = () => {
 
 
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {/* register your input into the hook by invoking the "register" function */}
+            {/* <form onSubmit={handleSubmit(onSubmit)}>
                 <input className='border' defaultValue="test" {...register("username")} />
 
-                {/* include validation with required or other standard HTML validation rules */}
                 <input className='border' {...register("password", { required: true })} />
-                {/* errors will return when field validation fails  */}
-                {errors.exampleRequired && <span>This field is required</span>}
+                {errors.password && <span>This field is required</span>}
 
                 <input type="submit" />
-            </form>
+            </form> */}
 
 
         </>

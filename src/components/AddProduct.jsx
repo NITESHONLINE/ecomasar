@@ -4,53 +4,15 @@ import { useAddProductMutation } from '../services/productApi'
 import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 
-const AddProduct = ({ addproduct, editData, editIndex, isEdit = false }) => {
-    const [addProduct] = useAddProductMutation()
-
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
-    const [description, setDescription] = useState('')
-    const [image, setImage] = useState('')
-    const nav = useNavigate()
-
-    console.log(editData)
-
-    useEffect(() => {
-        if (isEdit && editData) {
-            setName(editData.name);
-            setPrice(editData.price);
-            setDescription(editData.description);
-            setImage(editData.image);
-        }
-    }, [editData, isEdit])
-
-    const handleProductSubmit = (e) => {
-        e.preventDefault()
-        const singleProduct = { name, price, description, image }
-
-        if (isEdit) {
-            const products = JSON.parse(localStorage.getItem('product'));
-            products[editIndex] = singleProduct
-            localStorage.setItem('product', JSON.stringify(products))
-            alert('product upated success')
-            nav('/')
-        } else {
-            addproduct(singleProduct)
-            setName('')
-            setPrice('')
-            setDescription('')
-            setImage('')
-        }
-
-    }
-
-
+const AddProduct = () => {
     const {
         register,
         handleSubmit,
         watch,
         formState: { errors },
     } = useForm();
+
+     const [addProduct] = useAddProductMutation()
 
     const onSubmit = async (formData) => {
         try {

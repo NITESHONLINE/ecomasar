@@ -7,6 +7,9 @@ export const productApi = createApi({
     // get all products 
     getProducts: builder.query({ query: () => `products` }),
 
+    //search produts
+    getProductsBySearch: builder.query({ query: (search) => `/products/search${search}` }),
+
     // single product 
     getProductsById: builder.query({ query: (id) => `products/${id}` }),
     
@@ -17,7 +20,13 @@ export const productApi = createApi({
       body:formData
     }) }),
 
+    // get products by category 
+    getProductsByCategory: builder.query({ query: (cat) =>
+       `products/category/${cat}` 
+      }),
+
+
   }),
 })
 
-export const { useGetProductsQuery, useGetProductsByIdQuery, useAddProductMutation } = productApi
+export const { useGetProductsQuery, useGetProductsBySearchQuery, useGetProductsByIdQuery, useAddProductMutation, useGetProductsByCategoryQuery } = productApi

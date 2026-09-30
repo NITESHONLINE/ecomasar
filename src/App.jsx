@@ -14,6 +14,8 @@ function App() {
     <ToastContainer />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/:cat' element={<Home />} />
+
         <Route path='/product/:id' element={<ProductView />} />
         <Route path='/useeffect' element={<UseEffect />} />
         <Route path='/edit/:id' element={<EditProduct />} />

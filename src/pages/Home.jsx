@@ -23,6 +23,18 @@ const Home = () => {
     console.log(searchData)
 
 
+    let productData;
+    if(cat && categoryProduct){
+        productData = categoryProduct
+    } else if(search && searchData){
+        productData = searchData
+    } else{
+        productData = data
+    }
+
+
+
+
     return (
         <>
             <AddProduct />
@@ -56,7 +68,7 @@ const Home = () => {
 
 
                     <div class="mt-10 grid grid-cols-2 gap-6 sm:grid-cols-4 sm:gap-4 lg:mt-16">
-                        {categoryProduct?.products?.map((data, i) => (
+                        {productData?.products?.map((data, i) => (
                             <article class="relative flex flex-col overflow-hidden rounded-lg border">
                                 <div class="aspect-square overflow-hidden">
                                     <Link to={`/product/${i}`}>

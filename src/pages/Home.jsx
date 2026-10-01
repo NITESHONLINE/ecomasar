@@ -4,35 +4,41 @@ import Product from '../components/Product'
 import { Link, useLocation, useNavigate, useParams } from 'react-router'
 import { useGetProductsByCategoryQuery, useGetProductsBySearchQuery, useGetProductsQuery } from '../services/productApi'
 import { useGetCategoyQuery } from '../services/categoryApi'
+import Pagination from '@rc-component/pagination'
+import '@rc-component/pagination/assets/index.css';
 
 const Home = () => {
+     const [page, setPage] = useState(1);
+    const limit = 10;
 
-    const { data } = useGetProductsQuery()
+    const { data } = useGetProductsQuery({page,limit})
     const { data: category } = useGetCategoyQuery()
 
     const { cat } = useParams();
     const { data: categoryProduct } = useGetProductsByCategoryQuery(cat)
     const nav = useNavigate();
-    const {search} = useLocation()
+    const { search } = useLocation()
 
-    const {data:searchData} = useGetProductsBySearchQuery(search)
+   
+
+    const { data: searchData } = useGetProductsBySearchQuery(search)
 
 
-    console.log("search", search) 
+    console.log("search", search)
 
     console.log(searchData)
 
 
     let productData;
-    if(cat && categoryProduct){
+    if (cat && categoryProduct) {
         productData = categoryProduct
-    } else if(search && searchData){
+    } else if (search && searchData) {
         productData = searchData
-    } else{
+    } else {
         productData = data
     }
 
-
+  const total = productData?.total
 
 
     return (
@@ -52,16 +58,19 @@ const Home = () => {
                         ))}
                     </select>
 
-                        {/* search filter  */}
+                    {/* search filter  */}
                     <form
-                        
-                    class="max-w-md mx-auto">
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            nav('/?q=' + e.target.search.value)
+                        }}
+                        class="max-w-md mx-auto">
                         <label for="search" class="block mb-2.5 text-sm font-medium text-heading sr-only ">Search</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                                 <svg class="w-4 h-4 text-body" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"><path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" /></svg>
                             </div>
-                            <input type="search" id="search" class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Search" required />
+                            <input type="search" name='search' id="search" class="block w-full p-3 ps-9 bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded-base focus:ring-brand focus:border-brand shadow-xs placeholder:text-body" placeholder="Search" required />
                             <button type="button" class="absolute end-1.5 bottom-1.5 text-white bg-brand hover:bg-brand-strong box-border border border-transparent focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded text-xs px-3 py-1.5 focus:outline-none">Search</button>
                         </div>
                     </form>
@@ -97,6 +106,13 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            <Pagination
+                current={page}
+                onChange={(page)=>setPage(page)}
+                pageSize={limit}
+                total={total}
+            />
 
 
         </>
